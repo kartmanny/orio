@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import 'assets/styles/app.scss';
 
 import Navbar from 'components/Navbar';
+import Hero from 'components/Hero';
 import Text from 'components/Text';
 import Footer from 'components/Footer';
 
@@ -14,14 +15,16 @@ const BodyWrapper = styled.div`
 `;
 
 const Main = styled.div`
-  margin-bottom: auto;
   padding: 8rem 10rem;
+  margin: 0 auto auto;
+  width: 100%;
+  max-width: 1260px;
 `;
 
 const ROUTES = [
   {
     name: 'home',
-    component: () => <Text type="heading1">Path /</Text>,
+    component: Hero,
     path: '/',
     exact: true,
     render: true

@@ -7,12 +7,14 @@ interface ITextProps {
   children: React.ReactNode;
   color?: 'heading' | 'body' | 'white' | null;
   weight?: 'heading' | 'body' | null;
+  className?: string;
 }
 
-const Text = ({ type, children, color, weight }: ITextProps) => {
+function Text({ type, children, color, weight, className }: ITextProps) {
   return type.match(/^heading/) ? (
     <h1
       className={cx(
+        className,
         styles[type],
         color && styles[`color-${color}`],
         weight && styles[`weight-${weight}`]
@@ -23,6 +25,7 @@ const Text = ({ type, children, color, weight }: ITextProps) => {
   ) : (
     <span
       className={cx(
+        className,
         styles[type],
         color && styles[`color-${color}`],
         weight && styles[`weight-${weight}`]
@@ -31,6 +34,6 @@ const Text = ({ type, children, color, weight }: ITextProps) => {
       {children}
     </span>
   );
-};
+}
 
 export default Text;

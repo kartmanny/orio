@@ -1,0 +1,65 @@
+.heroSelectContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.heroSelectText {
+  border: 0.2rem var(--seed-color-primary) solid;
+  text-align: center;
+  width: 14rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--seed-color-primary);
+  cursor: pointer;
+}
+
+.constructionText {
+  color: var(--seed-text-body-light);
+  border: 0.2rem var(--seed-text-body-light) solid;
+}
+.sweepright,
+.construction {
+  transform: translateZ(0);
+  transition-duration: 0.3s;
+  margin: 4rem 1rem;
+}
+
+.sweepright::before {
+  content: '';
+  position: absolute;
+  color: white;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0.5rem;
+  background: var(--seed-color-primary);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.construction:focus,
+.heroSelectText:hover {
+  color: white;
+}
+
+.sweepright:hover:before,
+.construction:hover:before {
+  transform: scaleX(1);
+}
+
+.construction:before {
+  content: 'Coming Soon';
+  padding: 0.5rem;
+  z-index: 0;
+  text-align: center;
+  font-size: large;
+  background: var(--seed-text-body-light);
+  cursor: not-allowed;
+}
