@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import * as Framer from 'framer-motion';
 import 'assets/styles/app.scss';
 
 import Text from 'components/Text';
@@ -22,31 +23,81 @@ const Main = styled.div`
   max-width: 1260px;
 `;
 
+const pageVariants = {
+  initial: { opacity: 0, x: '-30vw', scale: 0.8 },
+  in: { opacity: 1, x: 0, scale: 1 },
+  out: { opacity: 0, x: '30vw', scale: 0.8 }
+};
+
+const pageTransitions = {
+  duration: 0.4
+};
+
 const ROUTES = [
   {
     name: 'home',
-    component: Hero,
+    component: () => (
+      <Framer.motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransitions}
+      >
+        <Hero />
+      </Framer.motion.div>
+    ),
     path: '/',
     exact: true,
     render: true
   },
   {
     name: 'discover',
-    component: () => <Text type="heading1">Path discover</Text>,
+    component: () => (
+      <Framer.motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransitions}
+      >
+        <Text type="heading1">Path discover</Text>
+      </Framer.motion.div>
+    ),
     path: '/discover',
     exact: true,
     render: true
   },
   {
     name: 'favorites',
-    component: () => <Text type="heading1">Path favorites</Text>,
+    component: () => (
+      <Framer.motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransitions}
+      >
+        <Text type="heading1">Path favorites</Text>
+      </Framer.motion.div>
+    ),
     path: '/favorites',
     exact: true,
     render: true
   },
   {
     name: 'login',
-    component: Auth,
+    component: () => (
+      <Framer.motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransitions}
+      >
+        <Auth />
+      </Framer.motion.div>
+    ),
     path: '/login',
     exact: true,
     cta: true,
@@ -60,18 +111,20 @@ function App() {
       <BrowserRouter>
         <Navbar routes={ROUTES} />
         <Main>
-          <Switch>
-            {ROUTES.filter(route => route.render).map(
-              ({ path, component, exact, name }) => (
-                <Route
-                  path={path}
-                  component={component}
-                  exact={exact}
-                  key={`route-${name}`}
-                />
-              )
-            )}
-          </Switch>
+          <Framer.AnimatePresence>
+            <Switch>
+              {ROUTES.filter(route => route.render).map(
+                ({ path, component, exact, name }) => (
+                  <Route
+                    path={path}
+                    component={component}
+                    exact={exact}
+                    key={`route-${name}`}
+                  />
+                )
+              )}
+            </Switch>
+          </Framer.AnimatePresence>
         </Main>
         <Footer />
       </BrowserRouter>
