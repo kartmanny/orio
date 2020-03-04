@@ -14,7 +14,7 @@ const FooterWrapper = styled.footer`
 function Footer() {
   return (
     <FooterWrapper>
-      <Text type="heading3" weight="body" color="white">
+      <Text type="large" weight="body" color="white">
         2020 © Orio Inc
       </Text>
     </FooterWrapper>

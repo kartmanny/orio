@@ -11,6 +11,7 @@ const Title = styled.h1`
   font-weight: 400;
   display: inline-flex;
   align-items: center;
+  margin-left: -2rem;
 `;
 
 const HeroWrapper = styled.div`
