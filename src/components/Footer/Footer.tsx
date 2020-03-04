@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import Text from 'components/Text';
 
 const FooterWrapper = styled.footer`
-  padding: 1rem 2rem;
-  min-height: 10vh;
+  padding: 2rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;

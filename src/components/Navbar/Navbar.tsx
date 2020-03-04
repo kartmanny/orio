@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
 
+import logo from 'assets/img/logo.svg';
+
 import Text from 'components/Text';
 import styles from 'components/Navbar/navbar.module.scss';
 
@@ -29,6 +31,9 @@ const Nav = styled.nav`
 function Navbar({ routes }: INavbarProps) {
   return (
     <Nav>
+      <NavLink to="/" style={{ marginRight: 'auto' }}>
+        <img src={logo} alt="logo" height={90} />
+      </NavLink>
       {routes
         .filter(route => route.render)
         .map(({ path, name, cta = false, exact = true }, index) => (

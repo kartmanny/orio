@@ -1,10 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import 'assets/styles/app.scss';
 
 import Navbar from 'components/Navbar';
 import Text from 'components/Text';
 import Footer from 'components/Footer';
+
+const BodyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const Main = styled.div`
+  margin-bottom: auto;
+  padding: 8rem 10rem;
+`;
 
 const ROUTES = [
   {
@@ -40,22 +52,26 @@ const ROUTES = [
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar routes={ROUTES} />
-      <Switch>
-        {ROUTES.filter(route => route.render).map(
-          ({ path, component, exact, name }) => (
-            <Route
-              path={path}
-              component={component}
-              exact={exact}
-              key={`route-${name}`}
-            />
-          )
-        )}
-      </Switch>
-      <Footer />
-    </BrowserRouter>
+    <BodyWrapper>
+      <BrowserRouter>
+        <Navbar routes={ROUTES} />
+        <Main>
+          <Switch>
+            {ROUTES.filter(route => route.render).map(
+              ({ path, component, exact, name }) => (
+                <Route
+                  path={path}
+                  component={component}
+                  exact={exact}
+                  key={`route-${name}`}
+                />
+              )
+            )}
+          </Switch>
+        </Main>
+        <Footer />
+      </BrowserRouter>
+    </BodyWrapper>
   );
 }
 
