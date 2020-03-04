@@ -9,6 +9,7 @@ import Navbar from 'components/Navbar';
 import Footer from 'components/Footer';
 import Hero from 'components/Hero';
 import Auth from 'components/Auth';
+import Discover from 'components/Discover';
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -53,17 +54,7 @@ const ROUTES = [
   },
   {
     name: 'discover',
-    component: () => (
-      <Framer.motion.div
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransitions}
-      >
-        <Text type="heading1">Path discover</Text>
-      </Framer.motion.div>
-    ),
+    component: Discover,
     path: '/discover',
     exact: true,
     render: true
@@ -113,6 +104,7 @@ function App() {
       <Main>
         <Framer.AnimatePresence exitBeforeEnter>
           <Switch location={location} key={location.pathname}>
+            <Route exact path="/discover/:neighborhood" component={Discover} />
             {ROUTES.filter(route => route.render).map(
               ({ path, component, exact, name }) => (
                 <Route
