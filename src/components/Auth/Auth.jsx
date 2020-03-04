@@ -1,11 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Loader from 'react-loader-spinner';
-import { withRouter } from 'react-router-dom';
 
-import Context from 'assets/context/Context';
-
-import Form from 'components/Form';
 import Text from 'components/Text/Text';
 
 const AuthContainer = styled.div`
@@ -13,43 +8,12 @@ const AuthContainer = styled.div`
   padding: 4rem 8rem 8rem 8rem;
 `;
 
-const AuthPage = ({ history }) => {
-  const { dispatch } = useContext(Context);
-  const [loading, setLoading] = useState(false);
-  const loginSubmitHandler = ({ username, password }) => {
-    if (username !== 'Veronica' || password !== 'Paul') {
-      alert('Invalid Login Credentials');
-    } else {
-      setLoading(true);
-      setTimeout(() => {
-        dispatch({ type: 'LOGIN' });
-        history.push('/haus/profile');
-      }, 1250);
-    }
-  };
-
+function AuthPage() {
   return (
     <AuthContainer>
-      <Text type="title1" style={{ marginBottom: '3rem' }}>
-        Log In or Register
-      </Text>
-      {loading ? (
-        <Loader type="Circles" color="#ff5a5f" height={250} width={250} />
-      ) : (
-        <div style={{ maxWidth: '40rem', margin: 'auto' }}>
-          <Form
-            name="Login"
-            cta="Log In"
-            onSubmit={loginSubmitHandler}
-            inputs={[
-              { name: 'username', type: 'text' },
-              { name: 'password', type: 'password' }
-            ]}
-          />
-        </div>
-      )}
+      <Text type="heading1">Log In or Register</Text>
     </AuthContainer>
   );
-};
+}
 
-export default withRouter(AuthPage);
+export default AuthPage;

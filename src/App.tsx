@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import 'assets/styles/app.scss';
 
-import Navbar from 'components/Navbar';
-import Hero from 'components/Hero';
 import Text from 'components/Text';
+import Navbar from 'components/Navbar';
 import Footer from 'components/Footer';
+import Hero from 'components/Hero';
+import Auth from 'components/Auth';
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const ROUTES = [
   },
   {
     name: 'login',
-    component: () => <Text type="heading1">Path Login</Text>,
+    component: Auth,
     path: '/login',
     exact: true,
     cta: true,
