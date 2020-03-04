@@ -1,0 +1,19 @@
+.navLink {
+  padding: 1rem 2rem;
+  &::after {
+    transition: max-width 0.2s ease-out;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--seed-color-primary);
+    border-radius: 1rem;
+    max-width: 0;
+  }
+}
+
+.active {
+  &::after {
+    max-width: 100%;
+  }
+}

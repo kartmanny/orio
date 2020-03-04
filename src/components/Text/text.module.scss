@@ -48,19 +48,34 @@
   display: inline-block;
 }
 
+// .large {
+//   font-size: 1.9rem;
+//   line-height: 2.4rem;
+// }
+
+// .regular {
+//   font-size: 1.7rem;
+//   line-height: 2.2rem;
+// }
+
+// .small {
+//   font-size: 1.4rem;
+//   line-height: 1.8rem;
+// }
+
 .large {
-  font-size: 1.9rem;
-  line-height: 2.4rem;
+  font-size: 2.4rem;
+  line-height: 130%;
 }
 
 .regular {
-  font-size: 1.7rem;
-  line-height: 2.2rem;
+  font-size: 2.2rem;
+  line-height: 130%;
 }
 
 .small {
-  font-size: 1.4rem;
-  line-height: 1.8rem;
+  font-size: 1.9rem;
+  line-height: 130%;
 }
 
 span.color-heading {
