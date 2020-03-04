@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import * as Framer from 'framer-motion';
 import 'assets/styles/app.scss';
 
@@ -24,9 +24,9 @@ const Main = styled.div`
 `;
 
 const pageVariants = {
-  initial: { opacity: 0, x: '-30vw', scale: 0.8 },
+  initial: { opacity: 0, x: '-10vw', scale: 1 },
   in: { opacity: 1, x: 0, scale: 1 },
-  out: { opacity: 0, x: '30vw', scale: 0.8 }
+  out: { opacity: 0, x: '10vw', scale: 1 }
 };
 
 const pageTransitions = {
@@ -106,28 +106,27 @@ const ROUTES = [
 ];
 
 function App() {
+  const location = useLocation();
   return (
     <BodyWrapper>
-      <BrowserRouter>
-        <Navbar routes={ROUTES} />
-        <Main>
-          <Framer.AnimatePresence>
-            <Switch>
-              {ROUTES.filter(route => route.render).map(
-                ({ path, component, exact, name }) => (
-                  <Route
-                    path={path}
-                    component={component}
-                    exact={exact}
-                    key={`route-${name}`}
-                  />
-                )
-              )}
-            </Switch>
-          </Framer.AnimatePresence>
-        </Main>
-        <Footer />
-      </BrowserRouter>
+      <Navbar routes={ROUTES} />
+      <Main>
+        <Framer.AnimatePresence exitBeforeEnter>
+          <Switch location={location} key={location.pathname}>
+            {ROUTES.filter(route => route.render).map(
+              ({ path, component, exact, name }) => (
+                <Route
+                  path={path}
+                  component={component}
+                  exact={exact}
+                  key={`route-${name}`}
+                />
+              )
+            )}
+          </Switch>
+        </Framer.AnimatePresence>
+      </Main>
+      <Footer />
     </BodyWrapper>
   );
 }
