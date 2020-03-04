@@ -1,0 +1,72 @@
+html {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Brandon', sans-serif;
+  font-size: 62.5%;
+  @media (max-width: 1260px) {
+    font-size: 60%;
+  }
+  @media (max-width: 960px) {
+    font-size: 57.5%;
+  }
+}
+
+:root {
+  --seed-color-primary: #ff5a5f;
+  --seed-color-secondary: #00b3a1;
+  --seed-text-heading: #484848;
+  --seed-text-body: #767676;
+  --seed-text-body-light: #c7c7c7;
+  --seed-border-light: #eaeaea;
+  --seed-font: Brandon, arial, sans-serif;
+  --seed-white: white;
+  --seed-black: black;
+  -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+  font-family: Brandon;
+  font-weight: 400;
+  src: url('../fonts/regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: Brandon;
+  font-weight: 400;
+  font-style: italic;
+  src: url('../fonts/regularItalic.otf') format('opentype');
+}
+
+@font-face {
+  font-family: Brandon;
+  font-weight: 500;
+  src: url('../fonts/medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: Brandon;
+  font-weight: 500;
+  font-style: italic;
+  src: url('../fonts/mediumItalic.otf') format('opentype');
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
