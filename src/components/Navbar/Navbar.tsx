@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
 
 import Text from 'components/Text';
@@ -9,6 +10,8 @@ type Route = {
   name: string;
   path: string;
   component: any;
+  render: boolean;
+  cta?: boolean;
   exact?: boolean;
 };
 
@@ -26,17 +29,21 @@ const Nav = styled.nav`
 function Navbar({ routes }: INavbarProps) {
   return (
     <Nav>
-      {routes.map(({ path, name, exact = true }, index) => (
-        <NavLink
-          to={path}
-          className={styles.navLink}
-          activeClassName={styles.active}
-          key={`NavLink-${name}-${index}`}
-          exact={exact}
-        >
-          <Text type="large">{name}</Text>
-        </NavLink>
-      ))}
+      {routes
+        .filter(route => route.render)
+        .map(({ path, name, cta = false, exact = true }, index) => (
+          <NavLink
+            to={path}
+            className={cx(cta ? styles.navCTA : styles.navLink)}
+            activeClassName={styles.active}
+            key={`NavLink-${name}-${index}`}
+            exact={exact}
+          >
+            <Text type="large" color={cta ? 'white' : null}>
+              {name}
+            </Text>
+          </NavLink>
+        ))}
     </Nav>
   );
 }

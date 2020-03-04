@@ -78,17 +78,27 @@
   line-height: 130%;
 }
 
+h1.color-heading,
 span.color-heading {
   color: var(--seed-text-heading);
 }
 
+h1.color-body,
 span.color-body {
   color: var(--seed-text-body);
 }
+
+h1.color-white,
+span.color-white {
+  color: var(--seed-white);
+}
+
+h1.weight-heading,
 span.weight-heading {
   font-weight: 500;
 }
 
+h1.weight-body,
 span.weight-body {
   font-weight: 400;
 }
