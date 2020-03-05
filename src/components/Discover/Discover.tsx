@@ -1,10 +1,13 @@
 import React from 'react';
 import * as Framer from 'framer-motion';
+import Map from 'components/Map';
+
+import styles from 'components/Discover/discover.module.scss';
 
 const pageVariants = {
-  initial: { opacity: 0, x: '-10vw', scale: 1 },
-  in: { opacity: 1, x: 0, scale: 1 },
-  out: { opacity: 0, x: '10vw', scale: 1 }
+  initial: { opacity: 0, x: '-10vw' },
+  in: { opacity: 1, x: 0 },
+  out: { opacity: 0, x: '10vw' }
 };
 
 const pageTransitions = {
@@ -15,6 +18,7 @@ function Discover({ match }: any) {
   const { params } = match;
   const { neighborhood } = params;
   const isDashboardOpen = !!params.neighborhood;
+
   return (
     <Framer.motion.div
       initial="initial"
@@ -22,8 +26,10 @@ function Discover({ match }: any) {
       exit="out"
       variants={pageVariants}
       transition={pageTransitions}
+      className={styles.discoverContainer}
     >
-      {isDashboardOpen ? `OPEN: ${neighborhood}` : 'CLOSED'}
+      <Map highlightedRegions={[neighborhood]} onNeighborhoodClick={() => {}} />
+      {isDashboardOpen && `OPEN: ${neighborhood}`}
     </Framer.motion.div>
   );
 }

@@ -20,8 +20,8 @@ const BodyWrapper = styled.div`
 const Main = styled.div`
   padding: 8rem 10rem;
   margin: 0 auto auto;
-  width: 100%;
   max-width: 1260px;
+  width: 100vw;
 `;
 
 const pageVariants = {
@@ -36,7 +36,7 @@ const pageTransitions = {
 
 const ROUTES = [
   {
-    name: 'home',
+    name: 'Home',
     component: () => (
       <Framer.motion.div
         initial="initial"
@@ -53,14 +53,14 @@ const ROUTES = [
     render: true
   },
   {
-    name: 'discover',
+    name: 'Discover',
     component: Discover,
     path: '/discover',
     exact: true,
     render: true
   },
   {
-    name: 'favorites',
+    name: 'Favorites',
     component: () => (
       <Framer.motion.div
         initial="initial"
@@ -77,7 +77,7 @@ const ROUTES = [
     render: true
   },
   {
-    name: 'login',
+    name: 'Login',
     component: () => (
       <Framer.motion.div
         initial="initial"

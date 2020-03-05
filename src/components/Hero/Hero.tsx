@@ -25,11 +25,16 @@ function Hero() {
   return (
     <HeroWrapper>
       <Title>
-        <img src={logo} alt="logo" height={175} style={{ marginRight: -3 }} />
+        <img
+          src={logo}
+          alt="logo"
+          height={175}
+          style={{ transform: 'translate(-3px, 0px)' }}
+        />
         Orïo
       </Title>
-      <Text type="heading2" color="body" weight="body">
-        Find your perfect neighborhood
+      <Text type="heading3" color="body" weight="body">
+        Find the perfect neighborhood
       </Text>
       <HeroSelect />
     </HeroWrapper>

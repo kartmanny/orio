@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import logo from 'assets/img/logo.svg';
 
@@ -29,6 +29,7 @@ const Nav = styled.nav`
 `;
 
 function Navbar({ routes }: INavbarProps) {
+  const location = useLocation();
   return (
     <Nav>
       <NavLink to="/" style={{ marginRight: 'auto' }}>
@@ -36,19 +37,28 @@ function Navbar({ routes }: INavbarProps) {
       </NavLink>
       {routes
         .filter(route => route.render)
-        .map(({ path, name, cta = false, exact = true }, index) => (
-          <NavLink
-            to={path}
-            className={cx(cta ? styles.navCTA : styles.navLink)}
-            activeClassName={styles.active}
-            key={`NavLink-${name}-${index}`}
-            exact={exact}
-          >
-            <Text type="large" color={cta ? 'white' : null}>
-              {name}
-            </Text>
-          </NavLink>
-        ))}
+        .map(({ path, name, cta = false, exact = true }, index) => {
+          const isDiscover =
+            name === 'Discover' && location.pathname.includes('discover');
+          return (
+            <NavLink
+              to={isDiscover ? location.pathname : path}
+              className={cx(
+                cta ? styles.navCTA : styles.navLink,
+                isDiscover &&
+                  location.pathname.includes('discover') &&
+                  styles.active
+              )}
+              activeClassName={styles.active}
+              key={`NavLink-${name}-${index}`}
+              exact={exact}
+            >
+              <Text type="large" color={cta ? 'white' : null}>
+                {name}
+              </Text>
+            </NavLink>
+          );
+        })}
     </Nav>
   );
 }
