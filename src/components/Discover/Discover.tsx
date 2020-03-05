@@ -1,6 +1,8 @@
 import React from 'react';
 import * as Framer from 'framer-motion';
+
 import Map from 'components/Map';
+import Dashboard from 'components/Dashboard';
 
 import styles from 'components/Discover/discover.module.scss';
 
@@ -17,7 +19,7 @@ const pageTransitions = {
 function Discover({ match }: any) {
   const { params } = match;
   const { neighborhood } = params;
-  const isDashboardOpen = !!params.neighborhood;
+  const isNeighborhoodSelected = !!params.neighborhood;
 
   return (
     <Framer.motion.div
@@ -29,7 +31,10 @@ function Discover({ match }: any) {
       className={styles.discoverContainer}
     >
       <Map highlightedRegions={[neighborhood]} onNeighborhoodClick={() => {}} />
-      {isDashboardOpen && `OPEN: ${neighborhood}`}
+      <Dashboard
+        showInstructions={!isNeighborhoodSelected}
+        neighborhood={neighborhood || null}
+      />
     </Framer.motion.div>
   );
 }
