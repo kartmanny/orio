@@ -10,7 +10,7 @@ function HeroSelect() {
   return (
     <div className={styles.heroSelectContainer}>
       <NavLink
-        to="/discover"
+        to="/discover/Magnolia"
         className={cx(styles.sweepright, styles.heroSelectCard)}
       >
         <Text type="large" className={styles.heroSelectText}>

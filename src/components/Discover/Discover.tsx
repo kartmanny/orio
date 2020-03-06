@@ -31,10 +31,21 @@ function Discover({ match }: any) {
       className={styles.discoverContainer}
     >
       <Map highlightedRegions={[neighborhood]} onNeighborhoodClick={() => {}} />
-      <Dashboard
-        showInstructions={!isNeighborhoodSelected}
-        neighborhood={neighborhood || null}
-      />
+      {isNeighborhoodSelected && (
+        <Dashboard
+          name={neighborhood}
+          overall={'B+'}
+          report={[
+            { name: 'Home Value', score: 'B' },
+            { name: 'Rent', score: 'A-' },
+            { name: 'Appreciation', score: 'B' },
+            { name: 'Schools', score: 'A' },
+            { name: 'Population', score: 'B-' },
+            { name: 'Diversity', score: 'B' },
+            { name: 'Walk Score', score: 'B' }
+          ]}
+        />
+      )}
     </Framer.motion.div>
   );
 }
