@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Framer from 'framer-motion';
 
 import Map from 'components/Map';
 import Dashboard from 'components/Dashboard';
+import Text from 'components/Text';
 
 import styles from 'components/Discover/discover.module.scss';
 
@@ -18,8 +19,12 @@ const pageTransitions = {
 
 function Discover({ match }: any) {
   const { params } = match;
-  const { neighborhood } = params;
-  const isNeighborhoodSelected = !!params.neighborhood;
+  const [currNeighborhood, setCurrNeighborhood] = useState(params.neighborhood);
+  const [visible, setVisible] = useState(!!currNeighborhood);
+
+  useEffect(() => {
+    setVisible(!!currNeighborhood);
+  }, [currNeighborhood]);
 
   return (
     <Framer.motion.div
@@ -30,22 +35,31 @@ function Discover({ match }: any) {
       transition={pageTransitions}
       className={styles.discoverContainer}
     >
-      <Map highlightedRegions={[neighborhood]} onNeighborhoodClick={() => {}} />
-      {isNeighborhoodSelected && (
-        <Dashboard
-          name={neighborhood}
-          overall={'B+'}
-          report={[
-            { name: 'Home Value', score: 'B' },
-            { name: 'Rent', score: 'A-' },
-            { name: 'Appreciation', score: 'B' },
-            { name: 'Schools', score: 'A' },
-            { name: 'Population', score: 'B-' },
-            { name: 'Diversity', score: 'B' },
-            { name: 'Walk Score', score: 'B' }
-          ]}
-        />
-      )}
+      <Text type="heading2">Select a region to view its details:</Text>
+      <Map
+        highlightedRegions={[currNeighborhood]}
+        onNeighborhoodClick={neighborhood => {
+          setCurrNeighborhood(neighborhood);
+        }}
+      />
+      <Dashboard
+        visible={visible}
+        name={currNeighborhood || 'Magnolia'}
+        overall={'B+'}
+        onClose={() => {
+          setCurrNeighborhood('');
+          setVisible(false);
+        }}
+        report={[
+          { name: 'Home Value', score: 'B' },
+          { name: 'Rent', score: 'A-' },
+          { name: 'Appreciation', score: 'B' },
+          { name: 'Schools', score: 'A' },
+          { name: 'Population', score: 'B-' },
+          { name: 'Diversity', score: 'B' },
+          { name: 'Walk Score', score: 'B' }
+        ]}
+      />
     </Framer.motion.div>
   );
 }

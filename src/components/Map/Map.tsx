@@ -1,12 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 import styles from 'components/Map/map.module.scss';
 
 interface IMapProps {
   hoverable?: boolean;
   highlightedRegions?: string[];
-  onNeighborhoodClick: () => void;
+  onNeighborhoodClick: (regionName: string | undefined) => void;
 }
 
 function Map({
@@ -14,14 +13,14 @@ function Map({
   onNeighborhoodClick,
   hoverable = true
 }: IMapProps) {
-  const history = useHistory();
   const handleNeighborhoodClick = (event: React.MouseEvent<SVGElement>) => {
     const regionName = event.currentTarget.dataset.name;
-    onNeighborhoodClick();
-    setTimeout(() => {
-      history.push(`/discover/${regionName}`);
-    }, 100);
+    onNeighborhoodClick(regionName);
   };
+
+  // const closeModal = () => {
+  //   onNeighborhoodClick('');
+  // };
 
   const shouldBeHighlighted = (neighborhood: string) => {
     return highlightedRegions.includes(neighborhood);

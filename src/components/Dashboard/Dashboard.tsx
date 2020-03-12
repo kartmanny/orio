@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import cx from 'classnames';
+
 import Text from 'components/Text';
 import Grade from 'components/Grade';
 
@@ -8,6 +10,8 @@ import styles from 'components/Dashboard/dashboard.module.scss';
 
 interface IDashboardProps {
   name: string;
+  onClose: () => void;
+  visible: boolean;
   price?: string;
   population?: string;
   overall: string;
@@ -46,29 +50,46 @@ const TextGrade = styled.div`
   justify-content: space-between;
 `;
 
-function Dashboard({ name, overall, report }: IDashboardProps) {
+function Dashboard({
+  name,
+  overall,
+  report,
+  onClose,
+  visible
+}: IDashboardProps) {
   return (
-    <div className={styles.dashboard}>
-      <DashboardHeader>
-        <Text type="heading2">{name}</Text>
-      </DashboardHeader>
-      <div></div>
-      <TextGrade>
-        <Text type="large" color="heading">
-          Overall Orïo Score:
-        </Text>
-        <Grade value={overall} />
-      </TextGrade>
-      <Grades>
-        {report.map(({ name, score }, index) => (
-          <TextGrade>
-            <Grade value={score} />
-            <span style={{ margin: '0 auto 0 1rem' }}>
-              <Text type="regular">{name}</Text>
-            </span>
-          </TextGrade>
-        ))}
-      </Grades>
+    <div
+      className={cx(styles.dashboardBackground, visible && styles.visible)}
+      onClick={onClose}
+    >
+      <div className={cx(styles.dashboard, visible && styles.expanded)}>
+        <DashboardHeader>
+          <Text type="heading2">{name}</Text>
+        </DashboardHeader>
+        <div></div>
+        <TextGrade>
+          <Text type="large" color="heading">
+            Overall Orïo Score:
+          </Text>
+          <Grade value={overall} />
+        </TextGrade>
+        <Grades>
+          {report.map(({ name, score }, index) => (
+            <TextGrade>
+              <Grade value={score} />
+              <span
+                style={{
+                  margin: '0 auto 0 1rem',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '100%'
+                }}
+              >
+                <Text type="regular">{name}</Text>
+              </span>
+            </TextGrade>
+          ))}
+        </Grades>
+      </div>
     </div>
   );
 }

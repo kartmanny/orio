@@ -55,7 +55,7 @@ const ROUTES = [
   {
     name: 'Discover',
     component: Discover,
-    path: '/discover/Magnolia',
+    path: '/discover',
     exact: true,
     render: true
   },
