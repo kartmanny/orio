@@ -77,7 +77,6 @@ function Discover({ match }: any) {
 
   useEffect(() => {
     setVisible(!!currNeighborhood);
-    console.log(data.neighborhoods);
     const neighborhoodData = findData(currNeighborhood);
     setRegionData(neighborhoodData);
   }, [currNeighborhood, data.neighborhoods, findData]);

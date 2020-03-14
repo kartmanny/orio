@@ -6,6 +6,7 @@ import { Neighborhood } from 'App';
 import Text from 'components/Text';
 import Grade from 'components/Grade';
 import GradeReport from 'components/Dashboard/GradeReport';
+import DashboardSection from 'components/Dashboard/DashboardSection';
 
 import styles from 'components/Dashboard/dashboard.module.scss';
 
@@ -28,12 +29,17 @@ const TextGrade = styled.div`
 `;
 
 function Dashboard({
+  onClose,
+  visible,
   name,
   overall,
   report,
-  onClose,
-  visible
+  chartData
 }: IDashboardProps) {
+  let barData: number[] | undefined;
+  if ('barData' in chartData) {
+    barData = chartData.barData;
+  }
   return (
     <div
       className={cx(styles.dashboardBackground, visible && styles.visible)}
@@ -44,12 +50,16 @@ function Dashboard({
           <Text type="heading2">{name}</Text>
         </DashboardHeader>
         <TextGrade>
-          <Text type="large" color="heading">
-            Overall Orïo Score:
-          </Text>
+          <Text type="heading3">Overall Orïo Score:</Text>
           {overall && <Grade value={overall} />}
         </TextGrade>
         <GradeReport report={report} />
+        <DashboardSection name="Residents">
+          <span>Hello</span>
+          <span>World</span>
+        </DashboardSection>
+        <DashboardSection name="Homes">hello</DashboardSection>
+        <DashboardSection name="Neighborhood">hello</DashboardSection>
       </div>
     </div>
   );

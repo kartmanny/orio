@@ -54,13 +54,13 @@ export type Neighborhood = {
     name?: string;
     rank?: number;
   }[];
-  chartData?: {
+  chartData: {
     barData?: number[];
     pieData?: number[];
     lineData?: number[];
     crimeData?: number[][];
+    rentOwned?: number[];
   };
-  rentOwned?: number[];
 };
 
 type State = {
