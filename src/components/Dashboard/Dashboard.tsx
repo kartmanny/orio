@@ -1,30 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import cx from 'classnames';
+import { Neighborhood } from 'App';
 
 import Text from 'components/Text';
 import Grade from 'components/Grade';
 
 import styles from 'components/Dashboard/dashboard.module.scss';
 
-interface IDashboardProps {
-  name: string;
+type IDashboardProps = Neighborhood & {
   onClose: () => void;
   visible: boolean;
-  price?: string;
-  population?: string;
-  overall: string;
-  report: { name: string; score: string }[];
-  schools?: { name: string; rank: number }[];
-  chartData?: {
-    barData: number[];
-    pieData: number[];
-    lineData: number[];
-    crimeData: [number[]];
-    rentOwned: number[];
-  };
-}
+};
 
 const DashboardHeader = styled.div`
   text-align: center;
@@ -66,28 +53,33 @@ function Dashboard({
         <DashboardHeader>
           <Text type="heading2">{name}</Text>
         </DashboardHeader>
-        <div></div>
         <TextGrade>
           <Text type="large" color="heading">
             Overall Orïo Score:
           </Text>
-          <Grade value={overall} />
+          {overall && <Grade value={overall} />}
         </TextGrade>
         <Grades>
-          {report.map(({ name, score }, index) => (
-            <TextGrade key={`grade-${name}-${index}`}>
-              <Grade value={score} />
-              <span
-                style={{
-                  margin: '0 auto 0 1rem',
-                  whiteSpace: 'nowrap',
-                  maxWidth: '100%'
-                }}
-              >
-                <Text type="regular">{name}</Text>
-              </span>
-            </TextGrade>
-          ))}
+          {report &&
+            report.map(({ name, score }, index) => {
+              if (name && score) {
+                return (
+                  <TextGrade key={`grade-${name}-${index}`}>
+                    <Grade value={score} />
+                    <span
+                      style={{
+                        margin: '0 auto 0 1rem',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '100%'
+                      }}
+                    >
+                      <Text type="regular">{name}</Text>
+                    </span>
+                  </TextGrade>
+                );
+              }
+              return null;
+            })}
         </Grades>
       </div>
     </div>

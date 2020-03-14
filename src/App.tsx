@@ -41,10 +41,32 @@ export type Action = {
   payload: boolean | { favorite: string };
 };
 
+export type Neighborhood = {
+  name: string;
+  price?: string;
+  population?: string;
+  overall?: string;
+  report?: {
+    name?: string;
+    score?: string;
+  }[];
+  schools?: {
+    name?: string;
+    rank?: number;
+  }[];
+  chartData?: {
+    barData?: number[];
+    pieData?: number[];
+    lineData?: number[];
+    crimeData?: number[][];
+  };
+  rentOwned?: number[];
+};
+
 type State = {
   authenticated: boolean;
   favorites: string[];
-  neighborhoods: any[];
+  neighborhoods: Neighborhood[];
 };
 
 type Reducer = (prevState: State, action: Action) => any;

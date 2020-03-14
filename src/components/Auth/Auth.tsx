@@ -29,7 +29,7 @@ function AuthPage({ logout = false }: IAuthPageProps) {
     if (logout) {
       dispatch({ type: 'LOGOUT', payload: false });
     }
-  }, []);
+  }, [dispatch, logout]);
 
   return (
     <AuthContainer>

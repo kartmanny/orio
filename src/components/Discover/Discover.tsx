@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import * as Framer from 'framer-motion';
+
+import Context from 'assets/context';
+import { Neighborhood } from 'App';
 
 import Map from 'components/Map';
 import Dashboard from 'components/Dashboard';
@@ -19,12 +22,20 @@ const pageTransitions = {
 
 function Discover({ match }: any) {
   const { params } = match;
+  const { data } = useContext(Context);
   const [currNeighborhood, setCurrNeighborhood] = useState(params.neighborhood);
   const [visible, setVisible] = useState(!!currNeighborhood);
+  const [regionData, setRegionData] = useState<Neighborhood | undefined>();
 
   useEffect(() => {
     setVisible(!!currNeighborhood);
-  }, [currNeighborhood]);
+    console.log(data.neighborhoods);
+    const neighborhoodData = data.neighborhoods.find(
+      neighborhood => neighborhood.name === currNeighborhood
+    );
+    setRegionData(neighborhoodData);
+    console.log(neighborhoodData);
+  }, [currNeighborhood, data.neighborhoods]);
 
   return (
     <Framer.motion.div
@@ -42,24 +53,16 @@ function Discover({ match }: any) {
           setCurrNeighborhood(neighborhood);
         }}
       />
-      <Dashboard
-        visible={visible}
-        name={currNeighborhood || 'Magnolia'}
-        overall={'B+'}
-        onClose={() => {
-          setCurrNeighborhood('');
-          setVisible(false);
-        }}
-        report={[
-          { name: 'Home Value', score: 'B' },
-          { name: 'Rent', score: 'A-' },
-          { name: 'Appreciation', score: 'B' },
-          { name: 'Schools', score: 'A' },
-          { name: 'Population', score: 'B-' },
-          { name: 'Diversity', score: 'B' },
-          { name: 'Walk Score', score: 'B' }
-        ]}
-      />
+      {regionData && (
+        <Dashboard
+          visible={visible}
+          onClose={() => {
+            setCurrNeighborhood('');
+            setVisible(false);
+          }}
+          {...regionData}
+        />
+      )}
     </Framer.motion.div>
   );
 }
