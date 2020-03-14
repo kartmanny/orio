@@ -18,13 +18,12 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow: hidden;
 `;
 
 const Main = styled.div`
-  padding: 8rem 10rem;
+  padding: 8rem 0;
   margin: 0 auto auto;
-  max-width: 1260px;
-  width: 100vw;
 `;
 
 const pageVariants = {
@@ -36,68 +35,6 @@ const pageVariants = {
 const pageTransitions = {
   duration: 0.4
 };
-
-const ROUTES = [
-  {
-    name: 'Home',
-    component: () => (
-      <Framer.motion.div
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransitions}
-      >
-        <Hero />
-      </Framer.motion.div>
-    ),
-    path: '/',
-    exact: true,
-    render: true
-  },
-  {
-    name: 'Discover',
-    component: Discover,
-    path: '/discover',
-    exact: true,
-    render: true
-  },
-  {
-    name: 'Favorites',
-    component: () => (
-      <Framer.motion.div
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransitions}
-      >
-        <Favorites />
-      </Framer.motion.div>
-    ),
-    path: '/favorites',
-    exact: true,
-    render: true
-  },
-  {
-    name: 'Login',
-    component: () => (
-      <Framer.motion.div
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransitions}
-      >
-        <Auth />
-      </Framer.motion.div>
-    ),
-    path: '/login',
-    exact: true,
-    cta: true,
-    render: true
-  }
-];
 
 export type Action = {
   type: 'ADD_FAVORITE' | 'REMOVE_FAVORITE' | 'LOGIN' | 'LOGOUT';
@@ -166,7 +103,86 @@ function App() {
     data,
     () => data
   );
-  console.log(data);
+
+  const ROUTES = [
+    {
+      name: 'Home',
+      component: () => (
+        <Framer.motion.div
+          initial="initial"
+          animate="in"
+          exit="out"
+          variants={pageVariants}
+          transition={pageTransitions}
+        >
+          <Hero />
+        </Framer.motion.div>
+      ),
+      path: '/',
+      exact: true,
+      render: true
+    },
+    {
+      name: 'Discover',
+      component: Discover,
+      path: '/discover',
+      exact: true,
+      render: true
+    },
+    {
+      name: 'Favorites',
+      component: () => (
+        <Framer.motion.div
+          initial="initial"
+          animate="in"
+          exit="out"
+          variants={pageVariants}
+          transition={pageTransitions}
+        >
+          <Favorites />
+        </Framer.motion.div>
+      ),
+      path: '/favorites',
+      exact: true,
+      render: state.authenticated
+    },
+    {
+      name: 'Login',
+      component: () => (
+        <Framer.motion.div
+          initial="initial"
+          animate="in"
+          exit="out"
+          variants={pageVariants}
+          transition={pageTransitions}
+        >
+          <Auth />
+        </Framer.motion.div>
+      ),
+      path: '/login',
+      exact: true,
+      cta: true,
+      render: !state.authenticated
+    },
+    {
+      name: 'Logout',
+      component: () => (
+        <Framer.motion.div
+          initial="initial"
+          animate="in"
+          exit="out"
+          variants={pageVariants}
+          transition={pageTransitions}
+        >
+          <Auth logout={true} />
+        </Framer.motion.div>
+      ),
+      path: '/login',
+      exact: true,
+      cta: true,
+      render: state.authenticated
+    }
+  ];
 
   const location = useLocation();
   return (

@@ -12,7 +12,7 @@ const FormContainer = styled.form`
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  min-width: 30rem;
+  min-width: min(100vw, 20rem);
   max-width: 35rem;
   margin: 4rem auto;
 `;

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -11,14 +11,25 @@ const AuthContainer = styled.div`
   text-align: center;
 `;
 
-function AuthPage() {
+interface IAuthPageProps {
+  logout?: boolean;
+}
+
+function AuthPage({ logout = false }: IAuthPageProps) {
   const { dispatch } = useContext(Context);
   const history = useHistory();
+
   const handleLogin = (username: string, password: string) => {
     if (username === 'Kart' && password === 'Manny')
       dispatch({ type: 'LOGIN', payload: false });
     history.push('/favorites');
   };
+
+  useEffect(() => {
+    if (logout) {
+      dispatch({ type: 'LOGOUT', payload: false });
+    }
+  }, []);
 
   return (
     <AuthContainer>
