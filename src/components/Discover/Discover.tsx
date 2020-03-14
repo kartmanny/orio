@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import * as Framer from 'framer-motion';
 
 import Context from 'assets/context';
@@ -64,10 +64,14 @@ const DEFAULT_DASH_DATA = {
 function Discover({ match }: any) {
   const { params } = match;
   const { data } = useContext(Context);
-  const findData = (neighborhoodName: string) =>
-    data.neighborhoods.find(
-      neighborhood => neighborhood.name === neighborhoodName
-    );
+  const findData = useCallback(
+    (neighborhoodName: string) => {
+      return data.neighborhoods.find(
+        neighborhood => neighborhood.name === neighborhoodName
+      );
+    },
+    [data.neighborhoods]
+  );
 
   const [currNeighborhood, setCurrNeighborhood] = useState(params.neighborhood);
   const [visible, setVisible] = useState(!!currNeighborhood);

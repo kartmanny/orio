@@ -28,6 +28,6 @@
   fill: var(--seed-color-primary);
 }
 
-.st3 {
-  fill: orangered !important;
+.favorite {
+  fill: lighten(#ff5a5f, 20%);
 }

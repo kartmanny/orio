@@ -46,9 +46,7 @@ function Dashboard({
   let pieData: number[] | undefined;
   let lineData: number[] | undefined;
   let rentOwned: number[] | undefined;
-  const isFavorited = data.favorites.find(
-    neighborhood => neighborhood === name
-  );
+  const isFavorited = data.favorites.includes(name);
   if ('barData' in chartData && 'pieData' in chartData) {
     barData = chartData.barData;
     pieData = chartData.pieData;

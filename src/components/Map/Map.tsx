@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import cx from 'classnames';
 import styles from 'components/Map/map.module.scss';
+
+import Context from 'assets/context';
 
 interface IMapProps {
   hoverable?: boolean;
@@ -13,17 +15,18 @@ function Map({
   onNeighborhoodClick,
   hoverable = true
 }: IMapProps) {
+  const { data } = useContext(Context);
   const handleNeighborhoodClick = (event: React.MouseEvent<SVGElement>) => {
     const regionName = event.currentTarget.dataset.name;
     onNeighborhoodClick(regionName);
   };
 
-  // const closeModal = () => {
-  //   onNeighborhoodClick('');
-  // };
-
   const shouldBeHighlighted = (neighborhood: string) => {
-    return highlightedRegions.includes(neighborhood);
+    if (highlightedRegions.includes(neighborhood)) {
+      return styles.active;
+    } else if (data.favorites.includes(neighborhood)) {
+      return styles.favorite;
+    }
   };
 
   return (
@@ -192,10 +195,7 @@ function Map({
       </g>
       <g id="Layer_3">
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Magnolia') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Magnolia'))}
           data-name="Magnolia"
           onClick={handleNeighborhoodClick}
           d="M57.1,136.5c-0.4,0.1-0.8,0.2-1.2,0.2c-5.3,1.1-8.4,1.8-10.4,4.2c-2.2,2.5-4.8,2.4-6.8,5
@@ -206,10 +206,7 @@ function Map({
       c-0.3-1.1-1.6-2.7-3.8-3.3c-2.2-0.7-1.4-0.9-2.6-4.7c-1.2-3.8-2.7-4.2-2.7-4.2"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Interbay') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Interbay'))}
           data-name="Interbay"
           onClick={handleNeighborhoodClick}
           d="M67.9,148.8c0.8,1.6,0.6,3.3,4.8,4.9c4.2,1.6,6.1,2.8,6.2,3.2c0.2,0.3,1,1.9,1,2.2c0,0.3,1.6,2.8,1.6,2.8
@@ -219,50 +216,35 @@ function Map({
       c-2.4-0.9-4.2-2.2-7.4-1.3c-3.2,0.8-5.3-0.3-6.3-1.8c-1-1.4-2.9-1.8-3.8-1.8S67.9,148.8,67.9,148.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Queen Anne') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Queen Anne'))}
           data-name="Queen Anne"
           onClick={handleNeighborhoodClick}
           d="M99.4,160.2v3.8h1.3v31.5h5.6v3H123V195l9.2-3v-8.4c0,0-17.1-9.6-18.1-11.1s-6.6-8.6-8-9.4
       S99.4,160.2,99.4,160.2z"
         />
         <polygon
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Lower Queen Anne') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Lower Queen Anne'))}
           data-name="Lower Queen Anne"
           onClick={handleNeighborhoodClick}
           points="100.4,197.4 104.5,197.4 104.5,200.2 123.2,200.2 123.6,222.6 139.4,222.6 139.4,230.4 131.5,238.8 
       124.9,238.8 100.4,211.8 	"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('East Queen Anne') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('East Queen Anne'))}
           data-name="East Queen Anne"
           onClick={handleNeighborhoodClick}
           d="M124.5,196.6l0.9,24.5l14.1,0.2l1.1-14.6c0,0-4.1-8-4.7-11.8s-0.4-7.5-0.4-7.5l-1.5-1.6l-0.1,7.1L124.5,196.6z
       "
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Westlake') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Westlake'))}
           data-name="Westlake"
           onClick={handleNeighborhoodClick}
           d="M134.8,184.4c0,0,4.4,2.5,5.1,3.2s6.8,13.7,7.1,15.4s0.4,18.2,0.4,18.2h-6.3l1-14.9c0,0-4.4-7.7-4.9-14.6
       s-0.4-5.2-0.4-5.2L134.8,184.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('South Lake Union') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('South Lake Union'))}
           data-name="South Lake Union"
           onClick={handleNeighborhoodClick}
           d="M141.1,222.8v8.9l-7.3,7.7H159c0,0,0.4-16.2,0.4-17.4s0.8-3.1,2.9-6.6s3.3-5.6,3.3-5.6h-3.1
@@ -270,19 +252,13 @@ function Map({
       "
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Belltown') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Belltown'))}
           data-name="Belltown"
           onClick={handleNeighborhoodClick}
           d="M125.2,240.8v3.3l9.2,8.1l4.5,1.4c0,0,0.8-3.5,2.9-2.7s3.2,2.1,3.2,2.1l13.3-8.8l0.4-3.4H125.2z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Eastlake') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Eastlake'))}
           data-name="Eastlake"
           onClick={handleNeighborhoodClick}
           d="M156.1,198.5h3.1c0,0,0,3.5,0.6,4.8c0.7,1.2,2,3.1,2.8,3.6c0.8,0.5,1.5,1.2,1.5,1.2h1.9l0.3-34
@@ -290,20 +266,14 @@ function Map({
       z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Portage Bay') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Portage Bay'))}
           data-name="Portage Bay"
           onClick={handleNeighborhoodClick}
           d="M168.2,173.7l-0.2,19c0,0,7.9,0.5,8-1s-0.2-2.6-0.2-2.6s-0.3-0.2,1-0.9c1.3-0.7,2,0.2,1.5-1.8
       c-0.5-2-1.7-2.6-1.7-2.6s-0.9,0.5-1.2-1c-0.3-1.6-1-2.8-1-3s-1-2.7-2.6-4S168.2,173.7,168.2,173.7z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Montlake') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Montlake'))}
           data-name="Montlake"
           onClick={handleNeighborhoodClick}
           d="M168,194.7v3.8h1.9v6.3h7.4v-5.8c0,0,3.8,0,5.2,1.1s1.8,2.8,3.2,3.5s-1.1-0.1,2.9,1.2s5,1.7,5.3,2.2
@@ -313,10 +283,7 @@ function Map({
       S168,194.7,168,194.7z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Capitol Hill') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Capitol Hill'))}
           data-name="Capitol Hill"
           onClick={handleNeighborhoodClick}
           d="M160.7,224.4c0,0-0.3,13.2,0,14.4c0.3,1.1,0.5,1.1-0.6,5.5s-1.1,4.4-1.1,4.4l2.6-1.5l10.4,0.7v2.2h2.8
@@ -324,10 +291,7 @@ function Map({
       h-10.8l-0.1-6.3h-1.2l-0.1,10.3c0,0-0.4,1.4-1.2,2.7s-3.6,4.6-4.3,6.5S160.7,224.4,160.7,224.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Madison Valley') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Madison Valley'))}
           data-name="Madison Valley"
           onClick={handleNeighborhoodClick}
           d="M194.6,209.5c0,0,1.5,1.7,2.4,1.9s1.2,0.8,1.2,0.8s0,2.8,0.8,4.6s3.1,4.5,4.1,5s1.4,0.6,1.4,1.9
@@ -337,7 +301,7 @@ function Map({
         <path
           className={cx(
             cx(styles.st2),
-            shouldBeHighlighted('Central District') && styles.active
+            shouldBeHighlighted('Central District')
           )}
           data-name="Central District"
           onClick={handleNeighborhoodClick}
@@ -345,30 +309,21 @@ function Map({
       s0.8-5.2,0.6-8.3s-0.5-4.8-0.1-8.2s1.8-12.1,1.4-15.6s-1.3-7.1-0.6-9.8s1.8-2.1,1.2-6.1S199.9,240.4,199.9,240.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Leschi') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Leschi'))}
           data-name="Leschi"
           onClick={handleNeighborhoodClick}
           d="M199.8,293.3h14.5c0,0-1.2,0.2-1.2-3.8s0.8-6,0.8-6s0.4-0.9,0.1-3.4s0.3-5,1.1-6.4s2.8-4.9,2.8-7.6
       s0-2.4,0-2.4s-2.2,0.4-2.6-1.9s-0.6-1.5-0.6-1.5l-13.2,0.5c0,0-0.2,14.1-0.5,15.6s-1,5.5-1,8.4S199.8,293.3,199.8,293.3z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Madrona') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Madrona'))}
           data-name="Madrona"
           onClick={handleNeighborhoodClick}
           d="M201.4,259.3h10.9v-2.2h3.4c0,0,0.2,2.6,1.1,3.9s0.8,1.8,0.8,1.8h0.7l0.8-9.1c0,0-2.6-1-3.2-3.9
       s-1.6-6.4-2.6-7.6s-1.6-1.1-1.8-1.2s-9.5-0.6-9.5-0.6L201.4,259.3z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Denny Blaine') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Denny Blaine'))}
           data-name="Denny Blaine"
           onClick={handleNeighborhoodClick}
           d="M220.3,251.4c0.4-3.2,1.4-14.2,0.8-16.1s-0.6-1.9-0.6-1.9s0.5-1.1-0.8,0.4s-1.6,1.9-1.6,1.9s0.6,1.4-0.9-0.2
@@ -376,10 +331,7 @@ function Map({
       s1.6,4.6,2.2,6.2s0.7,2.5,1.5,2.8S220.3,251.4,220.3,251.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Downtown Waterfront') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Downtown Waterfront'))}
           data-name="Downtown Waterfront"
           onClick={handleNeighborhoodClick}
           d="M123.9,245.6c-0.2,3.3-0.2,3.3-0.2,3.3s2.2,0.8,3.2,1.9c1.1,1.2,3.8,3.3,5.2,4.1c1.4,0.8,7.2,6,8.1,7.8
@@ -389,7 +341,7 @@ function Map({
         <path
           className={cx(
             styles.st2,
-            shouldBeHighlighted('Central Business District') && styles.active
+            shouldBeHighlighted('Central Business District')
           )}
           data-name="Central Business District"
           onClick={handleNeighborhoodClick}
@@ -397,29 +349,20 @@ function Map({
       l-3.6-2.6L140,255.1z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('First Hill') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('First Hill'))}
           data-name="First Hill"
           onClick={handleNeighborhoodClick}
           d="M158.7,251.4c0,0-1.4,1.6-1.1,4.8c0.3,3.2,6,13.2,6,13.2s2.8-2.6,5.8-2.9s4.2-0.3,4.2-0.3v-14.8h-3.1l-0.2-2
       l-9.8,0.6L158.7,251.4z"
         />
         <polygon
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Vesler Terrace') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Vesler Terrace'))}
           data-name="Vesler Terrace"
           onClick={handleNeighborhoodClick}
           points="164.7,271.6 167.9,274.6 174,274.6 173.6,268.1 170.3,268.1 	"
         />
         <polyline
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Pioneer Square') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Pioneer Square'))}
           data-name="Pioneer Square"
           onClick={handleNeighborhoodClick}
           points="149.7,270.9 153.2,271.3 158.1,278.2 158.1,289.3 151.6,289.3 151.2,274 149.7,270.2 	"
@@ -427,7 +370,7 @@ function Map({
         <path
           className={cx(
             styles.st2,
-            shouldBeHighlighted('International District') && styles.active
+            shouldBeHighlighted('International District')
           )}
           data-name="International District"
           onClick={handleNeighborhoodClick}
@@ -435,10 +378,7 @@ function Map({
       s3.2,4.3,3.7,4.6c0.5,0.3,0.5,0.3,0.5,0.3l-6.3-13l-3.4-4.5l-8,0.7l-3.9-3.3H159.7z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Industrial District') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Industrial District'))}
           data-name="Industrial District"
           onClick={handleNeighborhoodClick}
           d="M141.1,291h20.6c0,0-0.2,0.5,3-0.6c3.2-1.1,3.8-1.6,3.8-1.6s0.9,17.6,1.7,21.3s0.8,7.6,0.5,9.8
@@ -447,10 +387,7 @@ function Map({
       c-0.2-3.7-0.4-9.8-0.4-12.6c0-2.8-0.7-1.7,0.3-3.8c1-2.2,0.4-2.7-0.1-4.3S141.1,291,141.1,291z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Harbor Island') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Harbor Island'))}
           data-name="Harbor Island"
           onClick={handleNeighborhoodClick}
           d="M130.8,298.8c0,0,1.8-1.6,2.8-3.4c1.1-1.8,0.8-1.1,2.5-2.1c1.8-1,0.9,15.5,1.4,16.8c0.5,1.2,0.7-0.2,0.6,2.5
@@ -462,7 +399,7 @@ function Map({
         <path
           className={cx(
             styles.st2,
-            shouldBeHighlighted('Industrial District 2') && styles.active
+            shouldBeHighlighted('Industrial District 2')
           )}
           data-name="Industrial District 2"
           onClick={handleNeighborhoodClick}
@@ -474,10 +411,7 @@ function Map({
       s-3.6-2.2-4.5-3.6s-3-3.6-5-3.7S118.6,325.2,118.6,325.2z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('North Admiral') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('North Admiral'))}
           data-name="North Admiral"
           onClick={handleNeighborhoodClick}
           d="M86.6,288.1c0,0,0.2,2.1-1,3.4s-2.6,1.2-3.4,2.9s-1.4,3.1-2.7,4.8s-1.6,2.3-4.8,4.3s-4.8,2.7-5.9,4.4
@@ -486,10 +420,7 @@ function Map({
       s-2.3-3.1-3.4-5s0.1-0.6-2.1-3.1s-2.8-3.6-2.8-3.6"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Alki') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Alki'))}
           data-name="Alki"
           onClick={handleNeighborhoodClick}
           d="M90.7,285c-1.5,2.4-1.3,1.5-1.5,2.6c-0.1,1.2-1.3-3.8-2.9-2.4s-1.8,2.1-1.8,2.6c0,0.5-0.5,3.2-1.3,3.9
@@ -501,10 +432,7 @@ function Map({
       c4.8-1.2,6.2,0,6.2,0L90.7,285z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Genesee') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Genesee'))}
           data-name="Genesee"
           onClick={handleNeighborhoodClick}
           d="M71.6,333.8l-0.5,12.3l1.2,0.8v6.1h19.3c0,0,0.6-3.4,0.9-4.3c0.3-0.9-0.6,0,2.8-2.6c3.3-2.6,4.9-2.9,5.2-4.7
@@ -512,10 +440,7 @@ function Map({
       c-1.2,0.3-1.7,0.4-2.2-0.6S71.6,333.8,71.6,333.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Seaview') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Seaview'))}
           data-name="Seaview"
           onClick={handleNeighborhoodClick}
           d="M63.9,353v3.8c0,0,1.9,0.4,3,2.7s1.4,3.1,1.2,4s0.4,1.2,1,2.2c0.6,0.9,0.6,0.6,0.7,2.6s0.4,1.6,0.7,3.2
@@ -523,29 +448,20 @@ function Map({
       l-0.6,3.4h-1.9c0,0-1.1-2-2.2-3.4c-1.1-1.4-1.9-3.9-3.4-2.9C63.9,353,63.9,353,63.9,353z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Fairmount Park') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Fairmount Park'))}
           data-name="Fairmount Park"
           onClick={handleNeighborhoodClick}
           d="M86.5,380.8c0,0,1.7-0.5,2.9-1.8s9.1-1,9.1-1v-13.5l1.1-1.2V345l-5.3,4.8l-0.8,5.1H87L86.5,380.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Gatewood') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Gatewood'))}
           data-name="Gatewood"
           onClick={handleNeighborhoodClick}
           d="M71.1,391.1v2.4l2,3h6.8v-2l5.8-0.7l-1.4,3.4l0.3,7.1l1.9,0.4v8.1h11.4V380h-6.6c0,0-5.7,2.4-7.5,2.9
       s-1.8,0.5-1.8,0.5l-0.2,2.3l-4.2-0.1l-3,5.5C71.1,391.1,71.1,391.1,71.1,391.1z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Fauntleroy') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Fauntleroy'))}
           data-name="Fauntleroy"
           onClick={handleNeighborhoodClick}
           d="M81.5,396.4v2.4h-8c0,0,0,2.9-0.8,3.4s-7,6.3-6.4,8.2c0.6,1.8,2.8,3.8,4.8,4.9c1.9,1.2,2.8,0.8,3.5,3.2
@@ -555,20 +471,14 @@ function Map({
       L83,395.7h-1.7L81.5,396.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Arbor Heights') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Arbor Heights'))}
           data-name="Arbor Heights"
           onClick={handleNeighborhoodClick}
           d="M81,435.7h6.6l1,1.2h7.6l0.5-2h7.8l1.9,23.1c0,0-5.2,8.1-6.5,11.7c-1.2,3.6-1.2,3.6-1.2,3.6s-4.7-5.3-5.6-5.6
       c-1-0.2,1.1-0.8,1.1-0.8l-0.5-12c0,0-5.9,0.8-6.8-0.2c-0.9-1-1.3-5.5-1.8-6.8c-0.4-1.2-4.2-1.9-4.2-7S81,435.7,81,435.7z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Delridge') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Delridge'))}
           data-name="Delridge"
           onClick={handleNeighborhoodClick}
           d="M101.7,364.6l-1.8,1.4l-0.7,67.1h19.8l0.4,4.1l1.2-0.1l0.7-4c0,0,22.7-0.2,25.4-0.2s1,0.9,1.6,3
@@ -578,10 +488,7 @@ function Map({
       s-2.1-5.1-2.4-6.2s-1.4-1.1-2.5-1.8s-14.6-1.2-14.6-1.2s-1.6,10.4-2.6,12.9s-4.1,1.2-4.1,1.2L101.7,364.6z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('South Park') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('South Park'))}
           data-name="South Park"
           onClick={handleNeighborhoodClick}
           d="M162.8,427.8l1,5.2l6.7-0.8l2-6.6l11.1-1.1c0,0,0.9-0.2,0-1.8c-0.9-1.6-2.1-4.6-2.2-5.1
@@ -589,10 +496,7 @@ function Map({
       c0,0-0.3-0.2-0.4,2.5c-0.1,2.6,0.1,0,0,5.9c-0.1,5.9,1,19.4,1.8,24.5c0.8,5.1,1.7,5.1,1.7,5.1l3.9,0.6L162.8,427.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Georgetown') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Georgetown'))}
           data-name="Georgetown"
           onClick={handleNeighborhoodClick}
           d="M142,359.8l5.7,1.5l1.2,2.8l14.5,0.7l3.1,2l6.1,0.6c0,0,11.2,11.3,12.5,13.3s4.7,6.5,6.4,8.6
@@ -601,10 +505,7 @@ function Map({
       c0,0-4.8-7.7-4.9-10.3c-0.1-2.7-1.5-5.2-1.9-6.6C146.2,368.4,142,359.8,142,359.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Beacon Hill') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Beacon Hill'))}
           data-name="Beacon Hill"
           onClick={handleNeighborhoodClick}
           d="M207,427.6c0,0-2.8,13.6-1.8,16.4s1.8,4.3,3.8,4.2s9.6-1.7,11.2-1.1c1.7,0.6,1.8-0.5,1.8-0.5
@@ -615,10 +516,7 @@ function Map({
       C206.2,417.8,207,427.6,207,427.6z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Rainier Beach') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Rainier Beach'))}
           data-name="Rainier Beach"
           onClick={handleNeighborhoodClick}
           d="M221.5,429.8c0,0,2.7,21.5,2.4,22.3s-0.3,0.8-0.3,0.8l3.5,1v-5.6h6.7c0,0,0.5,25.7,1.3,26.9s11,0,11,0
@@ -627,10 +525,7 @@ function Map({
       s-7.1,3.3-9.2,2.4s-2.1-0.9-2.1-0.9l-0.9,1.4l-8.7,0.1c0,0,0.4,0.8-1.2-0.4S221.5,429.8,221.5,429.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Dunlap') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Dunlap'))}
           data-name="Dunlap"
           onClick={handleNeighborhoodClick}
           d="M220.6,408.4c0,0-0.1,2.5,0.6,4.2s2.9,6.7,2.4,7.9s-0.9,1.6-1.1,3.8s-0.6,3.3-0.6,3.3s1.9,1.5,2.8,2.4
@@ -638,19 +533,13 @@ function Map({
       L220.6,408.4z"
         />
         <polygon
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Brighton') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Brighton'))}
           data-name="Brighton"
           onClick={handleNeighborhoodClick}
           points="214.8,380.1 232.9,380.1 233.2,392.8 236.2,392.8 237.1,406.3 220.6,406 221.5,398.9 	"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Seward Park') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Seward Park'))}
           data-name="Seward Park"
           onClick={handleNeighborhoodClick}
           d="M222.4,333.6v10l6.3,0.4l0.3,13.1h1.8l-0.4,21.3h4.1v12.8h3.9l0.4,15.2h4.1c0,0-1-3.7-0.4-4.8s2.1-3.2,2.1-5.2
@@ -661,29 +550,20 @@ function Map({
       s-1.6-1.1-2.3-0.6S222.4,333.6,222.4,333.6z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Columbia City') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Columbia City'))}
           data-name="Columbia City"
           onClick={handleNeighborhoodClick}
           d="M197.7,322.4h2.8c0,0,2.3,7.1,3.4,8.7s1.8,3.1,2.6,4s1.3,0.8,1.7,3.5s1.2,4.4,1.7,5.5s0.2,1.9,3.1,1.7
       s14.5,0,14.5,0v12.8l1.2,0.8v4.6h-19.4l-4.6-13.8l-6.2-2.3l-0.8-0.2V322.4z"
         />
         <polygon
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Hillman City') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Hillman City'))}
           data-name="Hillman City"
           onClick={handleNeighborhoodClick}
           points="209.9,365.7 214.4,378.6 228.8,378.6 229.1,366.1 	"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Mount Baker') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Mount Baker'))}
           data-name="Mount Baker"
           onClick={handleNeighborhoodClick}
           d="M199.4,308.7c0.4,1.9,1.7,4.1,2.1,5.8s0,5.8,0.2,7.1s3.4,7.4,4.6,10s1.8,2.1,2.8,3.7s2.6,8.4,2.6,8.4h9.4
@@ -691,10 +571,7 @@ function Map({
       s-0.1-1.1-0.1-1.6s1.5-3.2,2-4.4s0-6.3,0-6.3l-14.5,0.3L199.4,308.7z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Madison Park') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Madison Park'))}
           data-name="Madison Park"
           onClick={handleNeighborhoodClick}
           d="M219.2,231.3c0,0-2.1-3.2-0.8-4.9c1.3-1.8,4.9-4.2,5.4-6.5s2.4-6.9,2.2-10c-0.2-3.1,0.8-8.4,0.7-9.5
@@ -704,10 +581,7 @@ function Map({
       C217.5,232.5,219.2,231.3,219.2,231.3z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Laurelhurst') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Laurelhurst'))}
           data-name="Laurelhurst"
           onClick={handleNeighborhoodClick}
           d="M226.8,177.5c0,0,0.9,5,0,5.7c-0.9,0.7,0.2,1.9-2,1.1c-2.2-0.8-3-7.1-5.6-9.9s-3.2-3.8-5.2-4
@@ -716,20 +590,14 @@ function Map({
       c-0.8,1.2-3.2,2.5-3.2,5.2C226.8,177.5,226.8,177.5,226.8,177.5z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Windermere') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Windermere'))}
           data-name="Windermere"
           onClick={handleNeighborhoodClick}
           d="M222.1,129.9v13h6.9l5.7,7.1l4.8,1.3c0,0,13.2-10.2,14.6-12.3c1.4-2.1,2.4-3.8,2.4-3.8l-2.7-2.1l-1.5,1.6h-4.1
       l-0.2-4.8c0,0-18-0.1-18.5,0.6s-1.8,1.2-1.8,1.2s-0.2,1.1-1.3-0.2c-1.1-1.3-1.1-1.3-1.1-1.3L222.1,129.9z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('University District') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('University District'))}
           data-name="University District"
           onClick={handleNeighborhoodClick}
           d="M207.2,158.4v5.2l3.1,1c0,0,0.1-0.2,0,0.7c-0.1,0.9-1,0.2-1.1,2.8c-0.1,2.7,0,3.2,0,3.2s-3.3,0.8-4.4,1.8
@@ -738,10 +606,7 @@ function Map({
       l8.6,3.8l0.3,4.5l4-0.4v13.8L207.2,158.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Wallingford') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Wallingford'))}
           data-name="Wallingford"
           onClick={handleNeighborhoodClick}
           d="M137,151.3v4.4h6.2l-0.6,26.8c0,0,3.7,0,4.6,2c0.9,2,1.4,3.5,1.4,3.5l-0.5,1.2c0,0,3.7,1.9,5.3,0.3
@@ -749,20 +614,14 @@ function Map({
       s-0.6,0.9-1.2,2.1c-0.7,1.2-0.9,1.2-1.5,1.2s-0.6,0-0.6,0s-1.6,0.6-2.2,1.2c-0.7,0.6-0.8,1.8-0.8,1.8v7.5l-0.2,1.1L137,151.3z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Phinney Ridge') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Phinney Ridge'))}
           data-name="Phinney Ridge"
           onClick={handleNeighborhoodClick}
           d="M144.2,148.8v-7.7c0,0-3.2-0.4-3.7-1.8c-0.5-1.3-2-4.8-3.5-6.1s-1.8-2-1.8-2s0.8-0.4,1.1-2.9
       c0.3-2.5,1.8-12.8,1.8-12.8h-24.5v12.2l6.4,0.1v19.1c0,0,2.8,7.2,4.6,7.8c1.8,0.6,2.2,0.8,2.2,0.8v-6.2L144.2,148.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Fremont') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Fremont'))}
           data-name="Fremont"
           onClick={handleNeighborhoodClick}
           d="M128.3,151.3v5.8c0,0,1.8,0.4-1.7-0.4c-3.5-0.8-5.6-4.2-6.2-5.3c-0.7-1.1-0.7-1.1-0.7-1.1v7.8h-6.2
@@ -770,10 +629,7 @@ function Map({
       s0.6-21.9,0.6-21.9l-6.3,0.1v-6.8L128.3,151.3z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Ballard') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Ballard'))}
           data-name="Ballard"
           onClick={handleNeighborhoodClick}
           d="M111.6,156.3h0.2h6.6v-26.4h-6.8v-28H72c0,0-2.3-4.8-2.8-7.1s-2.6-2.6-3.2-3.1c-0.7-0.5-1.8,1.6-0.8-1.8
@@ -784,10 +640,7 @@ function Map({
       s1,2.7,2.9,3.8c1.9,1.1,0.7,1.6,3.4,2.3s3.8,1,6.2,1.9s7.5,3.4,8,3.9c0.5,0.5,2.6,2.3,3,3.2c0.4,0.9,0.5,1.1,0.5,1.1L111.6,156.3z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('North Beach') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('North Beach'))}
           data-name="North Beach"
           onClick={handleNeighborhoodClick}
           d="M67.2,89.9c0.5-2.4,0.3-2.5,0.7-3.5c0.3-1,18.5-12.2,20.7-15.5s4-4.1,4-4.1s14.2,1.2,17.2,0s3.7-1.8,3.7-1.8
@@ -795,38 +648,26 @@ function Map({
       "
         />
         <polygon
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Crown Hill') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Crown Hill'))}
           data-name="Crown Hill"
           onClick={handleNeighborhoodClick}
           points="92.8,94.1 92.8,100 111.2,100 111.2,73.6 102,73.6 102,80.6 99.4,80.5 99.4,93.9 	"
         />
         <polygon
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Greenwood') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Greenwood'))}
           data-name="Greenwood"
           onClick={handleNeighborhoodClick}
           points="113.6,113.9 139,113.9 138,73.6 113.6,73.6 	"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Broadview') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Broadview'))}
           data-name="Broadview"
           onClick={handleNeighborhoodClick}
           d="M102,20.4h22.9v51.5h-4.5l-3.6-6.9c-1.5-1.8-2.6-2-2.6-2l-1.6-3.5c0,0-0.2-0.4-1.2,1.9s-0.5,3.6-0.5,3.6
       s-18.5,2.2-18-1.4c0.6-3.6-2-3.6,0.8-5.8s6.4-5.6,6.4-5.6s-0.5-2.8-0.5-6.1s-0.6-2.9,0-6.2S102,20.4,102,20.4z"
         />
         <rect
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Bitter Lake') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Bitter Lake'))}
           data-name="Bitter Lake"
           onClick={handleNeighborhoodClick}
           x="126.3"
@@ -835,58 +676,40 @@ function Map({
           height="51.5"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Northgate') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Northgate'))}
           data-name="Northgate"
           onClick={handleNeighborhoodClick}
           d="M140.4,20.4h38.8l1.1,62.1h10.1c0,0-2.2,1.8-2.8,5.5s1,9.6-0.2,10.6s-3.5,1.4-3.5,1.4h-42.8L140.4,20.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Olympic Hills') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Olympic Hills'))}
           data-name="Olympic Hills"
           onClick={handleNeighborhoodClick}
           d="M180.6,20.4l0.9,24h20c0,0,4.4-13.6,4-17s0-6.1,0-6.1L180.6,20.4z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Cedar Park') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Cedar Park'))}
           data-name="Cedar Park"
           onClick={handleNeighborhoodClick}
           d="M207.6,21h2.7c0,0,1.7,4.9,3.6,6.2s4.8,3.5,5.9,6.1s4.1,18.1,4.1,18.1s-3.3-5.1-5.1-4.6s-3,1.5-3,1.5v2.4
       l-15,0.8c0,0,5.8-14.5,6.4-19.1S207.6,21,207.6,21z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Victory Heights') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Victory Heights'))}
           data-name="Victory Heights"
           onClick={handleNeighborhoodClick}
           d="M181.8,80.9h9.8c0,0,0.6,1.1,0.9-6.2c0.3-7.2,0-5.7,1-8.6c1-2.9,2.1-6.5,3.5-10.4c1.4-3.9,3.8-9.6,3.8-9.6
       l-19-0.5V80.9z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Meadowbrook') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Meadowbrook'))}
           data-name="Meadowbrook"
           onClick={handleNeighborhoodClick}
           d="M200,52.8c0,0,4.8,1.1,5.1,1.1c0.3,0,0.3,1.9,1.2,3.6C207.2,59.2,207,86,207,86l-15.8-0.2c0,0-0.2-1.5,1.8-4.8
       c2-3.3,2.5-3.2,2.2-4.7s-0.8-2.8-0.5-5.2s1.6-9.3,2.9-11.6C199,57.2,200,52.8,200,52.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Matthews Beach') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Matthews Beach'))}
           data-name="Matthews Beach"
           onClick={handleNeighborhoodClick}
           d="M207,53.8l10.1-0.9V50h3.1l1.3,2.8l2.6,1.6l7.8,30.6c-0.8,2.6-1.1,2.1-1.2,3.4s4.8,8.9,4.8,8.9s-4.1-2.4-6-1.8
@@ -894,70 +717,49 @@ function Map({
       S207,53.8,207,53.8z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Wedgwood') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Wedgwood'))}
           data-name="Wedgwood"
           onClick={handleNeighborhoodClick}
           d="M189.6,88.6c0,0,0.9,7,0,8.8c-0.9,1.7-1.4,3.4-1.6,3.4s6.6,0,6.6,0s1.1,12.2,1.6,13.1s24.2,0,24.2,0V88.2
       L189.6,88.6z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Sand Point') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Sand Point'))}
           data-name="Sand Point"
           onClick={handleNeighborhoodClick}
           d="M238.9,103.5c0.4,1.2,2.9,7.8,3.2,9.8s0.2,5.7,0.3,8s0,7.1,0,7.1h6.9l0.4,4.5h2.2l1.4-1.8l4.2,2.4
       c0,0,3.4-9.9,5.6-12.6s2.9-1.3,2.1-4.5s1.1-2.3-2.9-6.1s-5.6-5.8-9.6-6.1s-10.4-3.1-11.4-3.1s-2.5,0-2.5,0V103.5z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('View Ridge') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('View Ridge'))}
           data-name="View Ridge"
           onClick={handleNeighborhoodClick}
           d="M222.1,98.8v17.3h-6.3v12.4l10.9,0.3c0,0-0.1,1.5,0.6,1s1.8-1,1.8-1l11.9-0.4v-14.1c0,0-1.2,0.5-1.8-2.4
       c-0.7-2.9-1.2-7.9-2.4-9.6s-1.2-1.4-2.6-3.1s-2.3-2.9-4.1-2.3s-4.2,1.6-5.6,1.9S222.1,98.8,222.1,98.8z"
         />
         <polyline
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Bryant') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Bryant'))}
           data-name="Bryant"
           onClick={handleNeighborhoodClick}
           points="207.3,156.3 209.2,154.6 208.9,116.3 214.2,116.3 214.2,130 220.6,130 220.6,144.1 212.5,155.6 
       208.2,156.3 	"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Ravenna') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Ravenna'))}
           data-name="Ravenna"
           onClick={handleNeighborhoodClick}
           d="M181.9,116.3V135l9.6,4.9v3.6l4.2-0.8l-0.2,13.5h9.4l2.1-2.5l0.3-37.2l-13.6-0.8v-7.6c0,0-1.2-1.3-0.9-3.4
       s0.2-2.7,0.2-2.7h-5.2l0.2,14.6L181.9,116.3z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Roosevelt') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Roosevelt'))}
           data-name="Roosevelt"
           onClick={handleNeighborhoodClick}
           d="M186.2,114.2v-12.1h-26.6c0,0,4.7,6.6,7.4,10.7s2.8,2.5,2.7,4.6c-0.1,2.2,0.2,3.9,0.6,6.7
       c0.3,2.8-0.4,7.7-0.4,7.7s2.9,1.8,3,2.5c0.1,0.7,5.5,3.1,5.5,3.1l1.6-1.3l-0.3-16.3l0.2-4.2l-0.2-1.3H186.2z"
         />
         <path
-          className={cx(
-            styles.st2,
-            shouldBeHighlighted('Greenlake') && styles.active
-          )}
+          className={cx(styles.st2, shouldBeHighlighted('Greenlake'))}
           data-name="Greenlake"
           onClick={handleNeighborhoodClick}
           d="M139,122.1l1,0.2c-0.6,0.9,0.1,1.4,0.1,2.8s-0.6,1.2-1.8,2.8s-0.1,0.5,0.7,1.7s1.6,1.5,1.9,3s0.5,2.9,2.6,2.8
