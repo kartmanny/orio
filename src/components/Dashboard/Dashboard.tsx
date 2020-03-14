@@ -75,7 +75,7 @@ function Dashboard({
         </TextGrade>
         <Grades>
           {report.map(({ name, score }, index) => (
-            <TextGrade>
+            <TextGrade key={`grade-${name}-${index}`}>
               <Grade value={score} />
               <span
                 style={{
