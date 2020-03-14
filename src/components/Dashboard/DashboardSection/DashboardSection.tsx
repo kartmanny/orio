@@ -6,8 +6,10 @@ import Text from 'components/Text';
 const Section = styled.section`
   margin: 1rem 0;
   text-align: left;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 5rem;
+  align-items: center;
+  grid-row-gap: 3rem;
 `;
 
 interface IDashboardSectionProps {

@@ -9,6 +9,7 @@ import GradeReport from 'components/Dashboard/GradeReport';
 import DashboardSection from 'components/Dashboard/DashboardSection';
 
 import Residents from 'components/Dashboard/Residents';
+import Homes from 'components/Dashboard/Homes';
 
 import styles from 'components/Dashboard/dashboard.module.scss';
 
@@ -40,9 +41,15 @@ function Dashboard({
 }: IDashboardProps) {
   let barData: number[] | undefined;
   let pieData: number[] | undefined;
+  let lineData: number[] | undefined;
+  let rentOwned: number[] | undefined;
   if ('barData' in chartData && 'pieData' in chartData) {
     barData = chartData.barData;
     pieData = chartData.pieData;
+  }
+  if ('lineData' in chartData && 'rentOwned' in chartData) {
+    lineData = chartData.lineData;
+    rentOwned = chartData.rentOwned;
   }
   return (
     <div
@@ -58,11 +65,12 @@ function Dashboard({
           {overall && <Grade value={overall} />}
         </TextGrade>
         <GradeReport report={report} />
-        <DashboardSection name="Residents">
+        <DashboardSection name="About the Residents">
           <Residents barData={barData} pieData={pieData} />
         </DashboardSection>
-        <DashboardSection name="Homes">hello</DashboardSection>
-        <DashboardSection name="Neighborhood">hello</DashboardSection>
+        <DashboardSection name="About the Homes">
+          <Homes lineData={lineData} rentOwned={rentOwned} />
+        </DashboardSection>
       </div>
     </div>
   );

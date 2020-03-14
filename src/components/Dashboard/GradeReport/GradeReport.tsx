@@ -44,7 +44,7 @@ function GradeReport({ report }: IGradeReportProps) {
                     maxWidth: '100%'
                   }}
                 >
-                  <Text type="regular">{name}</Text>
+                  <Text type="small">{name}</Text>
                 </span>
               </TextGrade>
             );
