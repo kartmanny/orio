@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
 import { Neighborhood } from 'App';
+
+import Context from 'assets/context';
 
 import Text from 'components/Text';
 import Grade from 'components/Grade';
@@ -39,10 +41,14 @@ function Dashboard({
   report,
   chartData
 }: IDashboardProps) {
+  const { data, dispatch } = useContext(Context);
   let barData: number[] | undefined;
   let pieData: number[] | undefined;
   let lineData: number[] | undefined;
   let rentOwned: number[] | undefined;
+  const isFavorited = data.favorites.find(
+    neighborhood => neighborhood === name
+  );
   if ('barData' in chartData && 'pieData' in chartData) {
     barData = chartData.barData;
     pieData = chartData.pieData;
@@ -56,7 +62,34 @@ function Dashboard({
       className={cx(styles.dashboardBackground, visible && styles.visible)}
       onClick={onClose}
     >
-      <div className={cx(styles.dashboard, visible && styles.expanded)}>
+      <div
+        className={cx(styles.dashboard, visible && styles.expanded)}
+        onClick={e => {
+          e.stopPropagation();
+        }}
+      >
+        {data.authenticated && isFavorited ? (
+          <span
+            className={cx(styles.favoriteButton, styles.favoriteButtonActive)}
+            onClick={() => {
+              dispatch({
+                type: 'REMOVE_FAVORITE',
+                payload: { favorite: name }
+              });
+            }}
+          >
+            &#9829;
+          </span>
+        ) : (
+          <span
+            className={cx(styles.favoriteButton)}
+            onClick={() => {
+              dispatch({ type: 'ADD_FAVORITE', payload: { favorite: name } });
+            }}
+          >
+            &#9825;
+          </span>
+        )}
         <DashboardHeader>
           <Text type="heading2">{name}</Text>
         </DashboardHeader>
