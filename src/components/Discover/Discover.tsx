@@ -20,22 +20,67 @@ const pageTransitions = {
   duration: 0.4
 };
 
+const DEFAULT_DASH_DATA = {
+  name: 'Magnolia',
+  price: '177,000',
+  population: '28,000',
+  overall: 'B',
+  report: [
+    { name: 'Home Value', score: 'B' },
+    { name: 'Rent', score: 'A-' },
+    { name: 'Appreciation', score: 'B' },
+    { name: 'Schools', score: 'A' },
+    { name: 'Population', score: 'B-' },
+    { name: 'Diversity', score: 'B' },
+    { name: 'Walk Score', score: 'B' }
+  ],
+  schools: [
+    { name: 'Ballard High School', rank: 11 },
+    { name: 'Center High School', rank: 15 },
+    { name: 'Cleveland High School', rank: 28 },
+    { name: 'Center School', rank: 14 }
+  ],
+  chartData: {
+    barData: [40700, 79431],
+    pieData: [45, 10, 10, 35],
+    lineData: [
+      170000,
+      400000,
+      440000,
+      680000,
+      900000,
+      920000,
+      1110000,
+      1270000
+    ],
+    crimeData: [
+      [559, 6275],
+      [463, 2784]
+    ],
+    rentOwned: [69, 31]
+  }
+};
+
 function Discover({ match }: any) {
   const { params } = match;
   const { data } = useContext(Context);
+  const findData = (neighborhoodName: string) =>
+    data.neighborhoods.find(
+      neighborhood => neighborhood.name === neighborhoodName
+    );
+
   const [currNeighborhood, setCurrNeighborhood] = useState(params.neighborhood);
   const [visible, setVisible] = useState(!!currNeighborhood);
-  const [regionData, setRegionData] = useState<Neighborhood | undefined>();
+  const [regionData, setRegionData] = useState<Neighborhood | undefined>(
+    findData(currNeighborhood)
+  );
 
   useEffect(() => {
     setVisible(!!currNeighborhood);
     console.log(data.neighborhoods);
-    const neighborhoodData = data.neighborhoods.find(
-      neighborhood => neighborhood.name === currNeighborhood
-    );
+    const neighborhoodData = findData(currNeighborhood);
     setRegionData(neighborhoodData);
-    console.log(neighborhoodData);
-  }, [currNeighborhood, data.neighborhoods]);
+  }, [currNeighborhood, data.neighborhoods, findData]);
 
   return (
     <Framer.motion.div
@@ -53,16 +98,17 @@ function Discover({ match }: any) {
           setCurrNeighborhood(neighborhood);
         }}
       />
-      {regionData && (
+      {
         <Dashboard
           visible={visible}
           onClose={() => {
             setCurrNeighborhood('');
             setVisible(false);
           }}
+          {...DEFAULT_DASH_DATA}
           {...regionData}
         />
-      )}
+      }
     </Framer.motion.div>
   );
 }
