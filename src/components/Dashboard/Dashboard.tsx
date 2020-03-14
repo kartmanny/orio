@@ -8,6 +8,8 @@ import Grade from 'components/Grade';
 import GradeReport from 'components/Dashboard/GradeReport';
 import DashboardSection from 'components/Dashboard/DashboardSection';
 
+import Residents from 'components/Dashboard/Residents';
+
 import styles from 'components/Dashboard/dashboard.module.scss';
 
 type IDashboardProps = Neighborhood & {
@@ -37,8 +39,10 @@ function Dashboard({
   chartData
 }: IDashboardProps) {
   let barData: number[] | undefined;
-  if ('barData' in chartData) {
+  let pieData: number[] | undefined;
+  if ('barData' in chartData && 'pieData' in chartData) {
     barData = chartData.barData;
+    pieData = chartData.pieData;
   }
   return (
     <div
@@ -55,8 +59,7 @@ function Dashboard({
         </TextGrade>
         <GradeReport report={report} />
         <DashboardSection name="Residents">
-          <span>Hello</span>
-          <span>World</span>
+          <Residents barData={barData} pieData={pieData} />
         </DashboardSection>
         <DashboardSection name="Homes">hello</DashboardSection>
         <DashboardSection name="Neighborhood">hello</DashboardSection>

@@ -13,7 +13,6 @@ const Grades = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   padding: 2rem;
-  overflow: hidden;
 `;
 
 const TextGrade = styled.div`
