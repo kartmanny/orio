@@ -5,6 +5,7 @@ import { Neighborhood } from 'App';
 
 import Text from 'components/Text';
 import Grade from 'components/Grade';
+import GradeReport from 'components/Dashboard/GradeReport';
 
 import styles from 'components/Dashboard/dashboard.module.scss';
 
@@ -18,17 +19,6 @@ const DashboardHeader = styled.div`
   padding-bottom: 2rem;
   border-bottom: 2px solid var(--seed-border-light);
   margin-bottom: 2rem;
-`;
-
-const Grades = styled.div`
-  padding: 2rem 0;
-  border: 2px solid var(--seed-border-light);
-  margin: 2rem 0;
-  border-radius: 20px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
-  padding: 2rem;
 `;
 
 const TextGrade = styled.div`
@@ -59,28 +49,7 @@ function Dashboard({
           </Text>
           {overall && <Grade value={overall} />}
         </TextGrade>
-        <Grades>
-          {report &&
-            report.map(({ name, score }, index) => {
-              if (name && score) {
-                return (
-                  <TextGrade key={`grade-${name}-${index}`}>
-                    <Grade value={score} />
-                    <span
-                      style={{
-                        margin: '0 auto 0 1rem',
-                        whiteSpace: 'nowrap',
-                        maxWidth: '100%'
-                      }}
-                    >
-                      <Text type="regular">{name}</Text>
-                    </span>
-                  </TextGrade>
-                );
-              }
-              return null;
-            })}
-        </Grades>
+        <GradeReport report={report} />
       </div>
     </div>
   );
