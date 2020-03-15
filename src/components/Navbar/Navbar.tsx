@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -21,45 +21,27 @@ interface INavbarProps {
   routes: Array<Route>;
 }
 
-const Nav = styled.nav`
-  @media (max-width: 768px) {
-    position: relative;
-    min-height: 5rem;
-    background-color: var(--seed-color-primary);
-    img {
-      display: none;
-    }
-  }
-`;
-
-const NavList = styled.ul`
-  padding: 0.5rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    max-height: 0;
-    overflow-y: scroll;
-  }
-`;
+const Nav = styled.nav``;
 
 const Hamburger = styled.span`
   color: white;
   font-size: 3.5rem;
   margin-left: auto;
   position: absolute;
-  top: 50%;
+  top: 20px;
   right: 10px;
   transform: translateY(-50%);
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 function Navbar({ routes }: INavbarProps) {
   const location = useLocation();
+
   return (
     <Nav>
-      <Hamburger>&#9776;</Hamburger>
-      <NavList>
+      <div className={cx(styles.navList)}>
         <NavLink to="/" style={{ marginRight: 'auto' }}>
           <img src={logo} alt="logo" height={90} />
         </NavLink>
@@ -87,7 +69,7 @@ function Navbar({ routes }: INavbarProps) {
               </NavLink>
             );
           })}
-      </NavList>
+      </div>
     </Nav>
   );
 }

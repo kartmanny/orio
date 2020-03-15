@@ -24,7 +24,7 @@ function Map({
   const shouldBeHighlighted = (neighborhood: string) => {
     if (highlightedRegions.includes(neighborhood)) {
       return styles.active;
-    } else if (data.favorites.includes(neighborhood)) {
+    } else if (data.favorites.includes(neighborhood) && data.authenticated) {
       return styles.favorite;
     }
   };
