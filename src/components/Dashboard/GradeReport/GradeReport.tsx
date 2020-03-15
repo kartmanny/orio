@@ -13,6 +13,11 @@ const Grades = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   padding: 2rem;
+  overflow-y: scroll;
+  min-height: 20rem;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const TextGrade = styled.div`

@@ -66,28 +66,29 @@ function Dashboard({
           e.stopPropagation();
         }}
       >
-        {data.authenticated && isFavorited ? (
-          <span
-            className={cx(styles.favoriteButton, styles.favoriteButtonActive)}
-            onClick={() => {
-              dispatch({
-                type: 'REMOVE_FAVORITE',
-                payload: { favorite: name }
-              });
-            }}
-          >
-            &#9829;
-          </span>
-        ) : (
-          <span
-            className={cx(styles.favoriteButton)}
-            onClick={() => {
-              dispatch({ type: 'ADD_FAVORITE', payload: { favorite: name } });
-            }}
-          >
-            &#9825;
-          </span>
-        )}
+        {data.authenticated &&
+          (isFavorited ? (
+            <span
+              className={cx(styles.favoriteButton, styles.favoriteButtonActive)}
+              onClick={() => {
+                dispatch({
+                  type: 'REMOVE_FAVORITE',
+                  payload: { favorite: name }
+                });
+              }}
+            >
+              &#9829;
+            </span>
+          ) : (
+            <span
+              className={cx(styles.favoriteButton)}
+              onClick={() => {
+                dispatch({ type: 'ADD_FAVORITE', payload: { favorite: name } });
+              }}
+            >
+              &#9825;
+            </span>
+          ))}
         <DashboardHeader>
           <Text type="heading2">{name}</Text>
         </DashboardHeader>
